@@ -3,13 +3,16 @@ import '../styles/ColorBox.css';
 
 class ColorBox extends Component {
     render() {
+        const { background, name } = this.props;
         return (
-            <div
-                style={{ background: this.props.background }}
-                className='ColorBox'
-            >
-                <span> {this.props.name}</span>
-                <span> {this.props.background}</span>
+            <div style={{ background }} className='ColorBox'>
+                <div className='copy-container'>
+                    <div className='box-content'>
+                        <span>{name}</span>
+                    </div>
+                    <button className='copy-button'>Copy</button>
+                </div>
+                <span className='see-more'>MORE</span>
             </div>
         );
     }
