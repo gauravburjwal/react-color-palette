@@ -6,6 +6,9 @@ import '../styles/Navbar.css';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 class Navbar extends Component {
     constructor(props) {
@@ -13,18 +16,26 @@ class Navbar extends Component {
 
         this.state = {
             format: 'hex',
+            open: false,
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleFormatChange = this.handleFormatChange.bind(this);
+        this.closeSnakbar = this.closeSnakbar.bind(this);
     }
 
-    handleChange(evt) {
-        this.setState({ format: evt.target.value });
+    handleFormatChange(evt) {
+        this.setState({ format: evt.target.value, open: true });
         this.props.handleChange(evt.target.value);
+    }
+
+    closeSnakbar() {
+        this.setState({
+            open: false,
+        });
     }
 
     render() {
         const { level, changeLevel } = this.props;
-        const { format } = this.state;
+        const { format, open } = this.state;
         return (
             <header className='Navbar'>
                 <div className='logo'>
@@ -43,12 +54,29 @@ class Navbar extends Component {
                     </div>
                 </div>
                 <div className='select-container'>
-                    <Select onChange={this.handleChange} value={format}>
+                    <Select onChange={this.handleFormatChange} value={format}>
                         <MenuItem value='hex'>Hex</MenuItem>
                         <MenuItem value='rgb'>RGB</MenuItem>
                         <MenuItem value='rgba'>RGBA</MenuItem>
                     </Select>
                 </div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={open}
+                    onClose={this.closeSnakbar}
+                    autoHideDuration={2500}
+                    message={
+                        <span>Format Changed to {format.toUpperCase()} </span>
+                    }
+                    action={[
+                        <IconButton onClick={this.closeSnakbar} color='inherit'>
+                            <CloseIcon fontSize='small' />
+                        </IconButton>,
+                    ]}
+                />
             </header>
         );
     }
