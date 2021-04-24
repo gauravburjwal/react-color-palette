@@ -18,7 +18,12 @@ class App extends Component {
                     <Route
                         exact
                         path='/'
-                        render={() => <PaletteList palettes={seedColors} />}
+                        render={(routeProps) => (
+                            <PaletteList
+                                palettes={seedColors}
+                                {...routeProps}
+                            />
+                        )}
                     />
                     {/* FIXME: Fix 404 Routes for invalid IDs */}
                     <Route
