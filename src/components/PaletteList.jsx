@@ -1,23 +1,57 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import { withStyles } from '@material-ui/styles';
+
 import MiniPalette from './MiniPalette';
 
+const styles = {
+    root: {
+        backgroundColor: 'blue',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
+    container: {
+        width: '50%',
+        display: 'flex',
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+    },
+    nav: {
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'space-between',
+        color: 'white',
+    },
+    palettes: {
+        boxSizing: 'border-box',
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 30%)',
+        gridGap: '5%',
+    },
+};
 class PaletteList extends Component {
     render() {
-        const { palettes } = this.props;
+        const { palettes, classes } = this.props;
         return (
-            <div>
-                Palette List
-                {palettes.map((palette) => (
-                    <div className='links' key={palette.id}>
-                        <Link to={`palette/${palette.id}`} key={palette.id}>
-                            <MiniPalette {...palette} />
-                        </Link>
+            <div className={classes.root}>
+                <div className={classes.container}>
+                    <nav className={classes.nav}>React Color Palette</nav>
+                    <div className={classes.palettes}>
+                        {palettes.map((palette) => (
+                            <Link to={`palette/${palette.id}`} key={palette.id}>
+                                <MiniPalette {...palette} />
+                            </Link>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         );
     }
 }
 
-export default PaletteList;
+export default withStyles(styles)(PaletteList);
